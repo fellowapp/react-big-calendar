@@ -187,6 +187,17 @@ storiesOf('Big Calendar', module)
       />
     )
   })
+  .add('add custom eventContent', () => {
+    return (
+      <Calendar
+        defaultView={Calendar.Views.DAY}
+        events={events}
+        components={{
+          eventContent: customComponents.eventContent,
+        }}
+      />
+    )
+  })
   .add('add custom no agenda events label', () => {
     return (
       <Calendar

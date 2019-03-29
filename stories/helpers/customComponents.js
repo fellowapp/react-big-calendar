@@ -53,6 +53,21 @@ const customComponents = {
     }
     return <div style={style}>{eventWrapperProps.children}</div>
   },
+  eventContent: eventContentProps => {
+    const labelStyle = {
+      display: 'inline',
+      color: 'orange',
+      fontWeight: 700,
+    }
+    return (
+      <div className="rbc-event-inner">
+        <span className="rbc-event-content">{eventContentProps.title}</span>{' '}
+        <span className="rbc-event-label" style={labelStyle}>
+          ({eventContentProps.label})
+        </span>
+      </div>
+    )
+  },
   timeSlotWrapper: timeSlotWrapperProps => {
     const style =
       timeSlotWrapperProps.resource === null ||

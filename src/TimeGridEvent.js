@@ -16,7 +16,11 @@ function TimeGridEvent(props) {
     getters,
     onClick,
     onDoubleClick,
-    components: { event: Event, eventWrapper: EventWrapper },
+    components: {
+      event: Event,
+      eventWrapper: EventWrapper,
+      eventContent: EventContent,
+    },
   } = props
   let title = accessors.title(event)
   let tooltip = accessors.tooltip(event)
@@ -58,7 +62,11 @@ function TimeGridEvent(props) {
           'rbc-event-continues-later': continuesLater,
         })}
       >
-        {inner}
+        {EventContent ? (
+          <EventContent event={event} title={title} label={label} />
+        ) : (
+          inner
+        )}
       </div>
     </EventWrapper>
   )
