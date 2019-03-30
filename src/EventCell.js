@@ -49,13 +49,11 @@ class EventCell extends React.Component {
       title
     )
 
-    const content = (
+    const content = EventContent ? (
+      <EventContent event={event} title={title} allDay={showAsAllDay} />
+    ) : (
       <div className="rbc-event-content" title={tooltip || undefined}>
-        {EventContent ? (
-          <EventContent event={event} title={title} allDay={showAsAllDay} />
-        ) : (
-          inner
-        )}
+        {inner}
       </div>
     )
 
