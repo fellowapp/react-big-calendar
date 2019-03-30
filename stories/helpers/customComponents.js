@@ -61,10 +61,17 @@ const customComponents = {
     }
     return (
       <div className="rbc-event-inner">
-        <span className="rbc-event-content">{eventContentProps.title}</span>{' '}
-        <span className="rbc-event-label" style={labelStyle}>
-          ({eventContentProps.label})
-        </span>
+        {eventContentProps.allDay && '(ALL DAY)'}
+        <span className="rbc-event-content">
+          {eventContentProps.title}
+        </span>{' '}
+        {!eventContentProps.allDay ? (
+          <span className="rbc-event-label" style={labelStyle}>
+            ({eventContentProps.label})
+          </span>
+        ) : (
+          undefined
+        )}
       </div>
     )
   },

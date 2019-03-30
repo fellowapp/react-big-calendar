@@ -19,7 +19,11 @@ class EventCell extends React.Component {
       accessors,
       getters,
       children,
-      components: { event: Event, eventWrapper: EventWrapper },
+      components: {
+        event: Event,
+        eventWrapper: EventWrapper,
+        eventContent: EventContent,
+      },
       ...props
     } = this.props
 
@@ -34,17 +38,23 @@ class EventCell extends React.Component {
 
     let userProps = getters.eventProp(event, start, end, selected)
 
+    const inner = Event ? (
+      <Event
+        event={event}
+        title={title}
+        isAllDay={showAsAllDay}
+        localizer={localizer}
+      />
+    ) : (
+      title
+    )
+
     const content = (
       <div className="rbc-event-content" title={tooltip || undefined}>
-        {Event ? (
-          <Event
-            event={event}
-            title={title}
-            isAllDay={allDay}
-            localizer={localizer}
-          />
+        {EventContent ? (
+          <EventContent event={event} title={title} allDay={showAsAllDay} />
         ) : (
-          title
+          inner
         )}
       </div>
     )
