@@ -46,8 +46,8 @@ class DayColumn extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const shouldUpdateTimeIndicator =
       !dates.eq(prevProps.getNow(), this.props.getNow(), 'minutes') ||
-      !dates.eq(prevProps.max(), this.props.max(), 'minutes') ||
-      !dates.eq(prevProps.min(), this.props.min(), 'minutes')
+      !dates.eq(prevProps.max, this.props.max, 'minutes') ||
+      !dates.eq(prevProps.min, this.props.min, 'minutes')
 
     if (prevProps.isNow !== this.props.isNow || shouldUpdateTimeIndicator) {
       this.clearTimeIndicatorInterval()
