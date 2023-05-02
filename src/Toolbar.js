@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import cn from 'classnames'
+import clsx from 'clsx'
 import { navigate } from './utils/constants'
 
 class Toolbar extends React.Component {
@@ -40,11 +40,11 @@ class Toolbar extends React.Component {
     )
   }
 
-  navigate = action => {
+  navigate = (action) => {
     this.props.onNavigate(action)
   }
 
-  view = view => {
+  view = (view) => {
     this.props.onView(view)
   }
 
@@ -53,11 +53,11 @@ class Toolbar extends React.Component {
     const view = this.props.view
 
     if (viewNames.length > 1) {
-      return viewNames.map(name => (
+      return viewNames.map((name) => (
         <button
           type="button"
           key={name}
-          className={cn({ 'rbc-active': view === name })}
+          className={clsx({ 'rbc-active': view === name })}
           onClick={this.view.bind(null, name)}
         >
           {messages[name]}

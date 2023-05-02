@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types'
-import cn from 'classnames'
-import scrollbarSize from 'dom-helpers/util/scrollbarSize'
+import clsx from 'clsx'
+import scrollbarSize from 'dom-helpers/scrollbarSize'
 import React from 'react'
 
-import dates from './utils/dates'
 import DateContentRow from './DateContentRow'
 import Header from './Header'
 import ResourceHeader from './ResourceHeader'
@@ -40,19 +39,20 @@ class TimeGridHeader extends React.Component {
         <div
           key={i}
           style={style}
-          className={cn(
+          className={clsx(
             'rbc-header',
             className,
-            dates.eq(date, today, 'day') && 'rbc-today'
+            localizer.isSameDate(date, today) && 'rbc-today'
           )}
         >
           {drilldownView ? (
-            <a
-              href="#"
-              onClick={e => this.handleHeaderClick(date, drilldownView, e)}
+            <button
+              type="button"
+              className="rbc-button-link"
+              onClick={(e) => this.handleHeaderClick(date, drilldownView, e)}
             >
               {header}
-            </a>
+            </button>
           ) : (
             <span>{header}</span>
           )}
@@ -60,7 +60,7 @@ class TimeGridHeader extends React.Component {
       )
     })
   }
-  renderRow = resource => {
+  renderRow = (resource) => {
     let {
       events,
       rtl,
@@ -71,11 +71,12 @@ class TimeGridHeader extends React.Component {
       localizer,
       accessors,
       components,
+      resizable,
     } = this.props
 
     const resourceId = accessors.resourceId(resource)
     let eventsToDisplay = resource
-      ? events.filter(event => accessors.resource(event) === resourceId)
+      ? events.filter((event) => accessors.resource(event) === resourceId)
       : events
 
     return (
@@ -96,8 +97,10 @@ class TimeGridHeader extends React.Component {
         localizer={localizer}
         onSelect={this.props.onSelectEvent}
         onDoubleClick={this.props.onDoubleClickEvent}
+        onKeyPress={this.props.onKeyPressEvent}
         onSelectSlot={this.props.onSelectSlot}
         longPressThreshold={this.props.longPressThreshold}
+        resizable={resizable}
       />
     )
   }
@@ -121,11 +124,12 @@ class TimeGridHeader extends React.Component {
         timeGutterHeader: TimeGutterHeader,
         resourceHeader: ResourceHeaderComponent = ResourceHeader,
       },
+      resizable,
     } = this.props
 
     let style = {}
     if (isOverflowing) {
-      style[rtl ? 'marginLeft' : 'marginRight'] = `${scrollbarSize()}px`
+      style[rtl ? 'marginLeft' : 'marginRight'] = `${scrollbarSize() - 1}px`
     }
 
     const groupedEvents = resources.groupEvents(events)
@@ -134,7 +138,7 @@ class TimeGridHeader extends React.Component {
       <div
         style={style}
         ref={scrollRef}
-        className={cn('rbc-time-header', isOverflowing && 'rbc-overflowing')}
+        className={clsx('rbc-time-header', isOverflowing && 'rbc-overflowing')}
       >
         <div
           className="rbc-label rbc-time-header-gutter"
@@ -180,8 +184,10 @@ class TimeGridHeader extends React.Component {
               localizer={localizer}
               onSelect={this.props.onSelectEvent}
               onDoubleClick={this.props.onDoubleClickEvent}
+              onKeyPress={this.props.onKeyPressEvent}
               onSelectSlot={this.props.onSelectSlot}
               longPressThreshold={this.props.longPressThreshold}
+              resizable={resizable}
             />
           </div>
         ))}
@@ -198,6 +204,7 @@ TimeGridHeader.propTypes = {
   isOverflowing: PropTypes.bool,
 
   rtl: PropTypes.bool,
+  resizable: PropTypes.bool,
   width: PropTypes.number,
 
   localizer: PropTypes.object.isRequired,
@@ -212,6 +219,7 @@ TimeGridHeader.propTypes = {
   onSelectSlot: PropTypes.func,
   onSelectEvent: PropTypes.func,
   onDoubleClickEvent: PropTypes.func,
+  onKeyPressEvent: PropTypes.func,
   onDrillDown: PropTypes.func,
   getDrilldownView: PropTypes.func.isRequired,
   scrollRef: PropTypes.any,
